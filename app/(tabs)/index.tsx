@@ -9,8 +9,14 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
+type Item = {
+  name: string;
+  phone?: string;
+  floor: number | string;
+};
+
 // Mock data
-const mockItems = [
+const mockItems: Item[] = [
   { name: "טייזו", phone: "7100275", floor: 0 },
   { name: "ניהול בניין אריאל", phone: "7100275", floor: 0 },
   { name: "בית הפועלים בע״מ", phone: "7100275", floor: 4 },
@@ -71,7 +77,9 @@ const mockItems = [
 export default function FloorsComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState(mockItems);
-  const [selectedFloor, setSelectedFloor] = useState(null);
+  const [selectedFloor, setSelectedFloor] = useState<string | number | null>(
+    null
+  );
 
   useEffect(() => {
     const results = mockItems.filter((item) =>
@@ -79,8 +87,7 @@ export default function FloorsComponent() {
     );
     setFilteredItems(results);
   }, [searchTerm]);
-
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: Item }) => (
     <TouchableOpacity
       style={styles.itemButton}
       onPress={() =>
